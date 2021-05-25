@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import validator from 'validator';
 
 (async () => {
 
@@ -26,6 +27,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //    image_url: URL of a publicly accessible image
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
+
+  app.get('/filteredimage', async (req: any, res: any) => {
+    const { image_url } = req.query;
+
+    if (!image_url || (image_url && !validator.isURL(image_url))) {
+        res.status(400).send("bad request: url not present or is invalid");
+    } else {
+      const filteredPath: string = await filterImageFromURL(image_url);
+      res.status(200).sendFile(filteredPath, {},  () => {
+        deleteLocalFiles([filteredPath]);
+      });
+    }
+  });
 
   /**************************************************************************** */
 
