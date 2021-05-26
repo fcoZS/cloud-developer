@@ -8,7 +8,7 @@ export const config = {
     "aws_region": process.env.AWS_REGION,
     "aws_profile": process.env.AWS_PROFILE,
     "aws_media_bucket": process.env.AWS_BUCKET,
-    "image_service": 'http://image-filter-1413977-dev-dev.us-east-1.elasticbeanstalk.com'
+    "image_service": process.env.IMAGE_SERVICE
   },
   "prod": {
     "username": "",
